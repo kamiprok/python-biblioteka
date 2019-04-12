@@ -17,12 +17,18 @@ for x in mycursor:
 
 # mydb.commit()
 
-query = ('SELECT * FROM autorzy')
+query = ('SELECT id_autora,imie,nazwisko FROM autorzy')
 
 mycursor.execute(query)
 
-for x in mycursor:
-    print(x)
+print('SELECT id_autora,imie,nazwisko FROM autorzy: \n')
+dash = '=' * 40
+print(dash)
+print('{:<4s}'.format('ID'), '{:<10s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'))
+print(dash)
+for x, y, z in mycursor:
+    print('{:<4d}'.format(x), '{:<10s}'.format(y), '{:<15s}'.format(z))
+print(dash)
 
 # sql = 'DELETE FROM autorzy WHERE id_autora = "6"'
 

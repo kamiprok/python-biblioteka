@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2019 at 08:24 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Czas generowania: 12 Kwi 2019, 16:29
+-- Wersja serwera: 10.1.38-MariaDB
+-- Wersja PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,26 +19,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `biblioteka`
+-- Baza danych: `biblioteka`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `autorzy`
+-- Struktura tabeli dla tabeli `autorzy`
 --
 
 CREATE TABLE `autorzy` (
   `id_autora` int(11) NOT NULL,
-  `imie` varchar(20) COLLATE utf8_polish_ci NOT NULL,
-  `nazwisko` varchar(20) COLLATE utf8_polish_ci NOT NULL,
+  `imie` varchar(30) COLLATE utf8_polish_ci NOT NULL,
+  `nazwisko` varchar(30) COLLATE utf8_polish_ci NOT NULL,
   `narodowosc` varchar(20) COLLATE utf8_polish_ci NOT NULL,
   `liczba_dziel` int(11) NOT NULL,
   `zyciorys` text COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Dumping data for table `autorzy`
+-- Zrzut danych tabeli `autorzy`
 --
 
 INSERT INTO `autorzy` (`id_autora`, `imie`, `nazwisko`, `narodowosc`, `liczba_dziel`, `zyciorys`) VALUES
@@ -56,7 +56,7 @@ INSERT INTO `autorzy` (`id_autora`, `imie`, `nazwisko`, `narodowosc`, `liczba_dz
 -- --------------------------------------------------------
 
 --
--- Table structure for table `czytelnicy`
+-- Struktura tabeli dla tabeli `czytelnicy`
 --
 
 CREATE TABLE `czytelnicy` (
@@ -68,25 +68,18 @@ CREATE TABLE `czytelnicy` (
   `liczba_ksiazek` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `egzemplarze`
+-- Zrzut danych tabeli `czytelnicy`
 --
 
-CREATE TABLE `egzemplarze` (
-  `id_egzemplarza` int(11) NOT NULL,
-  `nr_bibilioteczny` int(11) NOT NULL,
-  `id_ksiazki` int(11) NOT NULL,
-  `wydanie` smallint(6) NOT NULL,
-  `rok_publikacji` year(4) NOT NULL,
-  `dostepnosc` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+INSERT INTO `czytelnicy` (`id_czytelnika`, `imie`, `nazwisko`, `miasto`, `ulica`, `liczba_ksiazek`) VALUES
+(1, 'Adam', 'Małysz', 'Warszawa', 'Grójecka 1', 0),
+(2, 'Robert', 'Mateja', 'Kraków', 'Warszawska 2', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gatunki`
+-- Struktura tabeli dla tabeli `gatunki`
 --
 
 CREATE TABLE `gatunki` (
@@ -94,7 +87,7 @@ CREATE TABLE `gatunki` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Dumping data for table `gatunki`
+-- Zrzut danych tabeli `gatunki`
 --
 
 INSERT INTO `gatunki` (`nazwa`) VALUES
@@ -107,7 +100,7 @@ INSERT INTO `gatunki` (`nazwa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ksiazki`
+-- Struktura tabeli dla tabeli `ksiazki`
 --
 
 CREATE TABLE `ksiazki` (
@@ -119,38 +112,38 @@ CREATE TABLE `ksiazki` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Dumping data for table `ksiazki`
+-- Zrzut danych tabeli `ksiazki`
 --
 
 INSERT INTO `ksiazki` (`id_ksiazki`, `id_autora`, `wydawnictwo`, `gatunek`, `tytul`) VALUES
-(3, 1, 'Dragon', 'Poezja', 'Fraszki, pieśni, treny. Dzieła wybrane'),
-(4, 1, 'Nowa Era', 'Epika', 'Odprawa posłów greckich'),
-(5, 2, 'Nowa Era', 'Epika', 'Pan Tadeusz'),
-(6, 2, 'Świat Książki', 'Poezja', 'Sonety krymskie'),
-(7, 3, 'Świat Książki', 'Dramat', 'Balladyna'),
-(8, 3, 'WSiP', 'Dramat', 'Kordian'),
-(9, 4, 'WSiP', 'Epika', 'Quo Vadis'),
-(10, 4, 'WSiP', 'Epika', 'Krzyżacy'),
-(11, 4, 'WSiP', 'Epika', 'Ogniem i Mieczem'),
-(12, 4, 'Nowa Era', 'Dramat', 'Janko Muzykant'),
-(13, 5, 'Dragon', 'Dramat', 'Odyseja'),
-(14, 5, 'Reader\'s Digest', 'Dramat', 'Iliada'),
-(15, 6, 'Dragon', 'Epika', 'Aforyzmy z Zürau'),
-(16, 6, 'Nowa Era', 'Epika', 'Ameryka'),
-(17, 7, 'Reader\'s Digest', 'Epika', 'Aforyzmy'),
-(18, 7, 'WSiP', 'Epika', 'Białe noce'),
-(19, 8, 'Świat Książki', 'Dramat', 'Makbet'),
-(20, 8, 'Świat Książki', 'Dramat', 'Hamlet'),
-(21, 8, 'Świat Książki', 'Dramat', 'Romeo i Julia'),
-(22, 9, 'Dragon', 'Dramat', 'Boska Komedia'),
-(23, 9, 'Nowa Era', 'Dramat', 'Inferno'),
-(24, 10, 'Reader\'s Digest', 'Epika', 'Opowieści kanterberyjskie'),
-(25, 10, 'Reader\'s Digest', 'Epika', 'Opowieść Rycerza');
+(1, 1, 'Dragon', 'Poezja', 'Fraszki, pieśni, treny. Dzieła wybrane'),
+(2, 1, 'Nowa Era', 'Epika', 'Odprawa posłów greckich'),
+(3, 2, 'Nowa Era', 'Epika', 'Pan Tadeusz'),
+(4, 2, 'Świat Książki', 'Poezja', 'Sonety krymskie'),
+(5, 3, 'Świat Książki', 'Dramat', 'Balladyna'),
+(6, 3, 'WSiP', 'Dramat', 'Kordian'),
+(7, 4, 'WSiP', 'Epika', 'Quo Vadis'),
+(8, 4, 'WSiP', 'Epika', 'Krzyżacy'),
+(9, 4, 'WSiP', 'Epika', 'Ogniem i Mieczem'),
+(10, 4, 'Nowa Era', 'Dramat', 'Janko Muzykant'),
+(11, 5, 'Dragon', 'Dramat', 'Odyseja'),
+(12, 5, 'Reader\'s Digest', 'Dramat', 'Iliada'),
+(13, 6, 'Dragon', 'Epika', 'Aforyzmy z Zürau'),
+(14, 6, 'Nowa Era', 'Epika', 'Ameryka'),
+(15, 7, 'Reader\'s Digest', 'Epika', 'Aforyzmy'),
+(16, 7, 'WSiP', 'Epika', 'Białe noce'),
+(17, 8, 'Świat Książki', 'Dramat', 'Makbet'),
+(18, 8, 'Świat Książki', 'Dramat', 'Hamlet'),
+(19, 8, 'Świat Książki', 'Dramat', 'Romeo i Julia'),
+(20, 9, 'Dragon', 'Dramat', 'Boska Komedia'),
+(21, 9, 'Nowa Era', 'Dramat', 'Inferno'),
+(22, 10, 'Reader\'s Digest', 'Epika', 'Opowieści kanterberyjskie'),
+(23, 10, 'Reader\'s Digest', 'Epika', 'Opowieść Rycerza');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `wydawnictwa`
+-- Struktura tabeli dla tabeli `wydawnictwa`
 --
 
 CREATE TABLE `wydawnictwa` (
@@ -160,7 +153,7 @@ CREATE TABLE `wydawnictwa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Dumping data for table `wydawnictwa`
+-- Zrzut danych tabeli `wydawnictwa`
 --
 
 INSERT INTO `wydawnictwa` (`nazwa`, `kraj`, `miasto`) VALUES
@@ -173,13 +166,13 @@ INSERT INTO `wydawnictwa` (`nazwa`, `kraj`, `miasto`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `wypozyczenia`
+-- Struktura tabeli dla tabeli `wypozyczenia`
 --
 
 CREATE TABLE `wypozyczenia` (
   `id_wypozyczenia` int(11) NOT NULL,
   `id_czytelnika` int(11) NOT NULL,
-  `id_egzemplarza` int(11) NOT NULL,
+  `id_ksiazki` int(11) NOT NULL,
   `data_zamowienia` date NOT NULL,
   `data_wypozyczenia` date NOT NULL,
   `data_zwrotu` date NOT NULL,
@@ -187,36 +180,29 @@ CREATE TABLE `wypozyczenia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Indexes for dumped tables
+-- Indeksy dla zrzutów tabel
 --
 
 --
--- Indexes for table `autorzy`
+-- Indeksy dla tabeli `autorzy`
 --
 ALTER TABLE `autorzy`
   ADD PRIMARY KEY (`id_autora`);
 
 --
--- Indexes for table `czytelnicy`
+-- Indeksy dla tabeli `czytelnicy`
 --
 ALTER TABLE `czytelnicy`
   ADD PRIMARY KEY (`id_czytelnika`);
 
 --
--- Indexes for table `egzemplarze`
---
-ALTER TABLE `egzemplarze`
-  ADD PRIMARY KEY (`id_egzemplarza`),
-  ADD KEY `id_ksiazki` (`id_ksiazki`);
-
---
--- Indexes for table `gatunki`
+-- Indeksy dla tabeli `gatunki`
 --
 ALTER TABLE `gatunki`
   ADD PRIMARY KEY (`nazwa`);
 
 --
--- Indexes for table `ksiazki`
+-- Indeksy dla tabeli `ksiazki`
 --
 ALTER TABLE `ksiazki`
   ADD PRIMARY KEY (`id_ksiazki`),
@@ -225,17 +211,17 @@ ALTER TABLE `ksiazki`
   ADD KEY `id_gatunku` (`gatunek`);
 
 --
--- Indexes for table `wydawnictwa`
+-- Indeksy dla tabeli `wydawnictwa`
 --
 ALTER TABLE `wydawnictwa`
   ADD PRIMARY KEY (`nazwa`);
 
 --
--- Indexes for table `wypozyczenia`
+-- Indeksy dla tabeli `wypozyczenia`
 --
 ALTER TABLE `wypozyczenia`
   ADD PRIMARY KEY (`id_wypozyczenia`),
-  ADD KEY `id_egzemplarza` (`id_egzemplarza`),
+  ADD KEY `id_egzemplarza` (`id_ksiazki`),
   ADD KEY `id_czytelnika` (`id_czytelnika`);
 
 --
@@ -243,47 +229,35 @@ ALTER TABLE `wypozyczenia`
 --
 
 --
--- AUTO_INCREMENT for table `autorzy`
+-- AUTO_INCREMENT dla tabeli `autorzy`
 --
 ALTER TABLE `autorzy`
   MODIFY `id_autora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `czytelnicy`
+-- AUTO_INCREMENT dla tabeli `czytelnicy`
 --
 ALTER TABLE `czytelnicy`
-  MODIFY `id_czytelnika` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_czytelnika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `egzemplarze`
---
-ALTER TABLE `egzemplarze`
-  MODIFY `id_egzemplarza` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `ksiazki`
+-- AUTO_INCREMENT dla tabeli `ksiazki`
 --
 ALTER TABLE `ksiazki`
   MODIFY `id_ksiazki` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT for table `wypozyczenia`
+-- AUTO_INCREMENT dla tabeli `wypozyczenia`
 --
 ALTER TABLE `wypozyczenia`
   MODIFY `id_wypozyczenia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Ograniczenia dla zrzutów tabel
 --
 
 --
--- Constraints for table `egzemplarze`
---
-ALTER TABLE `egzemplarze`
-  ADD CONSTRAINT `egzemplarze_ibfk_1` FOREIGN KEY (`id_ksiazki`) REFERENCES `ksiazki` (`id_ksiazki`);
-
---
--- Constraints for table `ksiazki`
+-- Ograniczenia dla tabeli `ksiazki`
 --
 ALTER TABLE `ksiazki`
   ADD CONSTRAINT `ksiazki_ibfk_1` FOREIGN KEY (`id_autora`) REFERENCES `autorzy` (`id_autora`),
@@ -291,11 +265,11 @@ ALTER TABLE `ksiazki`
   ADD CONSTRAINT `ksiazki_ibfk_5` FOREIGN KEY (`gatunek`) REFERENCES `gatunki` (`nazwa`);
 
 --
--- Constraints for table `wypozyczenia`
+-- Ograniczenia dla tabeli `wypozyczenia`
 --
 ALTER TABLE `wypozyczenia`
-  ADD CONSTRAINT `wypozyczenia_ibfk_1` FOREIGN KEY (`id_egzemplarza`) REFERENCES `egzemplarze` (`id_egzemplarza`),
-  ADD CONSTRAINT `wypozyczenia_ibfk_2` FOREIGN KEY (`id_czytelnika`) REFERENCES `czytelnicy` (`id_czytelnika`);
+  ADD CONSTRAINT `wypozyczenia_ibfk_2` FOREIGN KEY (`id_czytelnika`) REFERENCES `czytelnicy` (`id_czytelnika`),
+  ADD CONSTRAINT `wypozyczenia_ibfk_3` FOREIGN KEY (`id_ksiazki`) REFERENCES `ksiazki` (`id_ksiazki`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
