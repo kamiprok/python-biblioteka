@@ -88,7 +88,7 @@ def menu_autorzy():
     elif choice == '2':
         os.system('cls')
         user_input = input('Wpisz imię lub nazwisko autora: ')
-        query = f'SELECT * FROM `{autorzy}` WHERE `{imie_autora}` like "%{user_input}%" or `{nazwisko_autora}` like ' \
+        query = f'SELECT * FROM {autorzy} WHERE {imie_autora} like "%{user_input}%" or {nazwisko_autora} like ' \
             f'"%{user_input}%"'
         mycursor.execute(query)
         print(dash)
