@@ -12,7 +12,13 @@ lista_tabele = []
 for i in mycursor:
     lista_tabele.append(i[0])
 
+# input(lista_tabele)
+
 autorzy = lista_tabele[0]
+ksiazki = lista_tabele[3]
+wydawnictwa = lista_tabele[4]
+gatunki = lista_tabele[2]
+czytelnicy = lista_tabele[1]
 
 query = 'Show columns from autorzy'
 mycursor.execute(query)
@@ -25,6 +31,48 @@ imie_autora = lista_autorzy[1]
 nazwisko_autora = lista_autorzy[2]
 narodowosc_autora = lista_autorzy[3]
 opis_autora = lista_autorzy[5]
+
+query = 'show columns from ksiazki'
+mycursor.execute(query)
+lista_ksiazki = []
+for i in mycursor:
+    lista_ksiazki.append(i[0])
+
+id_ksiazki = lista_ksiazki[0]
+id_autora_ksiazki = lista_ksiazki[1]
+wydawnictwo_ksiazki = lista_ksiazki[2]
+gatunek_ksiazki = lista_ksiazki[3]
+tytul_ksiazki = lista_ksiazki[4]
+
+query = 'show columns from wydawnictwa'
+mycursor.execute(query)
+lista_wydawnictwa = []
+for i in mycursor:
+    lista_wydawnictwa.append(i[0])
+
+nazwa_wydawnictwa = lista_wydawnictwa[0]
+
+query = 'show columns from gatunki'
+mycursor.execute(query)
+lista_gatunki = []
+for i in mycursor:
+    lista_gatunki.append(i[0])
+
+nazwa_gatunku = lista_gatunki[0]
+
+query = 'show columns from czytelnicy'
+mycursor.execute(query)
+lista_czytelnicy = []
+for i in mycursor:
+    lista_czytelnicy.append(i[0])
+
+id_czytelnika = lista_czytelnicy[0]
+imie_czytelnika = lista_czytelnicy[1]
+nazwisko_czytelnika = lista_czytelnicy[2]
+miasto_czytelnika = lista_czytelnicy[3]
+ulica_czytelnika = lista_czytelnicy[4]
+liczba_ksiazek_czytelnika = lista_czytelnicy[5]
+
 
 def main_menu():
     os.system('cls')
@@ -62,6 +110,41 @@ def main_menu():
         main_menu()
 
 
+def print_autors():
+    query = f'SELECT * FROM {autorzy}'
+    mycursor.execute(query)
+    print(dash)
+    print('{:<4s}'.format('ID'), '{:<10s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+          '{:<10s}'.format('NARODOWOSC'), '{:<10s}'.format('L. DZIEŁ'), '{:<15s}'.format('OPIS'))
+    print(dash)
+    for x, y, z, a, b, c in mycursor:
+        print('{:<4d}'.format(x), '{:<10s}'.format(y), '{:<15s}'.format(z), '{:<10s}'.format(a),
+              '{:^10d}'.format(b), '{:.50s}'.format(c))
+    print(dash)
+
+
+def print_wyd():
+    query = f'SELECT * FROM {wydawnictwa}'
+    mycursor.execute(query)
+    print(dash)
+    print('{:<15s}'.format('Nazwa'))
+    print(dash)
+    for x, y, z in mycursor:
+        print('{:<15s}'.format(x))
+    print(dash)
+
+
+def print_gatunek():
+    query = f'SELECT * FROM {gatunki}'
+    mycursor.execute(query)
+    print(dash)
+    print('{:<15s}'.format('Nazwa'))
+    print(dash)
+    for x in mycursor:
+        print(x)
+    print(dash)
+
+
 def menu_autorzy():
     os.system('cls')
     print('BIBLIOTEKARZ (Beta)')
@@ -74,16 +157,7 @@ def menu_autorzy():
     choice = input('\nOption: ')
     if choice == '1':
         os.system('cls')
-        query = f'SELECT * FROM {autorzy}'
-        mycursor.execute(query)
-        print(dash)
-        print('{:<4s}'.format('ID'), '{:<10s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
-              '{:<10s}'.format('NARODOWOSC'), '{:<10s}'.format('L. DZIEŁ'), '{:<15s}'.format('OPIS'))
-        print(dash)
-        for x, y, z, a, b, c in mycursor:
-            print('{:<4d}'.format(x), '{:<10s}'.format(y), '{:<15s}'.format(z), '{:<10s}'.format(a),
-                  '{:^10d}'.format(b), '{:.50s}'.format(c))
-        print(dash)
+        print_autors()
         input('Press any key to continue...')
     elif choice == '2':
         os.system('cls')
@@ -157,6 +231,140 @@ def menu_autorzy():
         os.system('cls')
         menu_autorzy()
     menu_autorzy()
+
+
+def menu_ksiazki():
+    os.system('cls')
+    print('BIBLIOTEKARZ (Beta)')
+    print('\nMenu - Książki\n')
+    print('1. Wyświetl')
+    print('2. Wyszukaj')
+    print('3. Dodaj')
+    print('4. Usuń')
+    print('\nE. Exit')
+    choice = input('\nOption: ')
+    if choice == '1':
+        os.system('cls')
+        query = f'SELECT * FROM {ksiazki}'
+        mycursor.execute(query)
+        print(dash)
+        print('{:<10s}'.format('ID KSIĄŻKI'), '{:<10s}'.format('ID AUTORA'), '{:<15s}'.format('WYDAWNICTWO'),
+              '{:<15s}'.format('GATUNEK'), '{:<30s}'.format('TYTUŁ'))
+        print(dash)
+        for x, y, z, a, b in mycursor:
+            print('{:^10d}'.format(x), '{:^10d}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                  '{:<30s}'.format(b))
+        print(dash)
+        input('Press any key to continue...')
+    elif choice == '2':
+        os.system('cls')
+        user_input = input('Wpisz tytuł książki: ')
+        query = f'SELECT * FROM {ksiazki} WHERE {tytul_ksiazki} like "%{user_input}%"'
+        mycursor.execute(query)
+        print(dash)
+        print('{:<10s}'.format('ID KSIĄŻKI'), '{:<10s}'.format('ID AUTORA'), '{:<15s}'.format('WYDAWNICTWO'),
+              '{:<15s}'.format('GATUNEK'), '{:<30s}'.format('TYTUŁ'))
+        print(dash)
+        for x, y, z, a, b in mycursor:
+            print('{:^10d}'.format(x), '{:^10d}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                  '{:<30s}'.format(b))
+        print(dash)
+        input('Press any key to continue...')
+    elif choice == '3':
+        os.system('cls')
+        print('Dodawanie nowej ksiązki do bazy\n')
+        print_autors()
+        print('')
+        imie = input('Wpisz ID autora: ')
+        os.system('cls')
+        print('Dodawanie nowej ksiązki do bazy\n')
+        print_wyd()
+        print('')
+        wyd = input('Wpisz Wydawnictwo: ')
+        os.system('cls')
+        print('Dodawanie nowej ksiązki do bazy\n')
+        print_gatunek()
+        gatunek = input('Wpisz Gatunek: ')
+        os.system('cls')
+        print('Dodawanie nowej ksiązki do bazy\n')
+        tytul = input('Podaj Tytuł ksiązki: ')
+        try:
+            query = f'INSERT INTO `{ksiazki}` (`{id_autora_ksiazki}`, `{wydawnictwo_ksiazki}`, `{gatunek_ksiazki}`, `{tytul_ksiazki}`) VALUES ("{imie}", "{wyd}", "{gatunek}", "{tytul}")'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Dodano!')
+        except:
+            input('nie dodano :(')
+    elif choice == '4':
+        os.system('cls')
+        user_input = input('tytuł książki, którą chcesz usunąć:')
+        print('')
+        query = f'SELECT * FROM `{ksiazki}` WHERE `{tytul_ksiazki}` like "%{user_input}%"'
+        mycursor.execute(query)
+        do_usuniecia = []
+        print('{:<10s}'.format('ID KSIĄŻKI'), '{:<10s}'.format('ID AUTORA'), '{:<15s}'.format('WYDAWNICTWO'),
+              '{:<15s}'.format('GATUNEK'), '{:<30s}'.format('TYTUŁ'))
+        for x, y, z, a, b in mycursor:
+            print('{:^10d}'.format(x), '{:<10d}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                  '{:<30s}'.format(b))
+            do_usuniecia.append(x)
+        try:
+            answer = input('\nPodaj ID książki, którą chcesz usunąć: ')
+            mycursor.execute(f'SELECT * FROM {ksiazki} WHERE {id_ksiazki}={answer}')
+            myresult = mycursor.fetchone()
+            confirm = input(f'Czy na pewno chcesz usunąć {myresult[4]}, ID {myresult[0]} z bazy? [Y/N]: ')
+            if confirm.lower() == 'y':
+                query = f'DELETE FROM `{ksiazki}` WHERE `{id_ksiazki}`="{answer}"'
+                mycursor.execute(query)
+                mydb.commit()
+                input(f'Usunięto {myresult[4]} o ID {myresult[0]} z bazy danych!')
+            else:
+                input('Anulowano...')
+        except:
+            input('Anulowano...')
+    elif choice.lower() == 'e':
+        main_menu()
+    elif choice.lower() == 'exit':
+        main_menu()
+    else:
+        input('\nWrong input...')
+        os.system('cls')
+        menu_ksiazki()
+    menu_ksiazki()
+
+
+def menu_czytelnicy():
+    os.system('cls')
+    print('BIBLIOTEKARZ (Beta)')
+    print('\nMenu - Czytelnicy\n')
+    print('1. Wyświetl')
+    print('2. Wyszukaj')
+    print('3. Dodaj')
+    print('4. Usuń')
+    print('\nE. Exit')
+    choice = input('\nOption: ')
+    if choice == '1':
+        os.system('cls')
+        query = f'SELECT * FROM {czytelnicy}'
+        mycursor.execute(query)
+        print(dash)
+        print('{:<4s}'.format('ID'), '{:<10s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+              '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'),  '{:^15s}'.format('L. KSIĄŻEK'))
+        print(dash)
+        for x, y, z, a, b, c in mycursor:
+            print('{:<4d}'.format(x), '{:<10s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                  '{:<15s}'.format(b), '{:^15d}'.format(c))
+        print(dash)
+        input('Press any key to continue...')
+    elif choice.lower() == 'e':
+        main_menu()
+    elif choice.lower() == 'exit':
+        main_menu()
+    else:
+        input('\nWrong input...')
+        os.system('cls')
+        menu_czytelnicy()
+    menu_czytelnicy()
 
 
 main_menu()
