@@ -698,8 +698,6 @@ def menu_wyszukaj():
     print('2. Książki')
     print('3. Czytelnicy')
     print('4. Wypożyczenia')
-    print('5. Wydawnictwa')
-    print('6. Gatunki')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -765,11 +763,88 @@ def menu_wyszukaj():
         if choice == '1':
             os.system('cls')
             answer = input('Podaj Imię lub Nazwisko autora: ')
-            query = f'SELECT autorzy.imie, autorzy.nazwisko, ksiazki.tytul FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE autorzy.imie LIKE "%{answer}%" OR autorzy.nazwisko LIKE "%{answer}%"'
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {imie_autora.lower()} LIKE "%{answer.lower()}%" OR autorzy.nazwisko LIKE "%{answer}%"'
             mycursor.execute(query)
-            for x, y, z in mycursor:
-                print(x, y, z)
-            input('')
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            input('Press any key to continue...')
+        elif choice == '2':
+            os.system('cls')
+            answer = input('Podaj wydawnictwo: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {wydawnictwo_ksiazki.lower()} LIKE "%{answer.lower()}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            input('Press any key to continue...')
+        elif choice == '3':
+            os.system('cls')
+            answer = input('Podaj gatunek: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {gatunek_ksiazki.lower()} LIKE "%{answer.lower()}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            input('Press any key to continue...')
+        elif choice == '4':
+            os.system('cls')
+            answer = input('Podaj tytuł książki: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {tytul_ksiazki.lower()} LIKE "%{answer.lower()}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            input('Press any key to continue...')
+        elif choice == '5':
+            os.system('cls')
+            print('Wybierz dostępne książki: ')
+            print('1. TAK')
+            print('2. NIE')
+            choice = input('Option: ')
+            if choice == '1':
+                query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {dostepna_ksiazki.lower()} LIKE "%TAK%"'
+                mycursor.execute(query)
+                print(dash)
+                print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                      '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+                print(dash)
+                for x, y, z, a, b, c, d in mycursor:
+                    print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                          '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+                print(dash)
+            else:
+                query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {dostepna_ksiazki.lower()} LIKE "%NIE%"'
+                mycursor.execute(query)
+                print(dash)
+                print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                      '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+                print(dash)
+                for x, y, z, a, b, c, d in mycursor:
+                    print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                          '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+                print(dash)
+            input('Press any key to continue...')
         elif choice.lower() == 'e':
             menu_wyszukaj()
         elif choice.lower() == 'exit':
@@ -779,7 +854,69 @@ def menu_wyszukaj():
             os.system('cls')
             menu_wyszukaj()
         menu_wyszukaj()
-
+    elif choice == '3':
+        os.system('cls')
+        print('BIBLIOTEKARZ (Beta)')
+        print('\nMenu - Wyszukaj - Czytelnicy\n')
+        print('Wybierz kryterium szukania: \n')
+        print('1. Imie lub nazwisko')
+        print('2. Miejscowość')
+        print('3. Adres')
+        print('\nE. Exit')
+        choice = input('\nOption: ')
+        if choice == '1':
+            os.system('cls')
+            user_input = input('Wpisz imię lub nazwisko czytelnika: ')
+            query = f'SELECT * FROM {czytelnicy} WHERE {imie_czytelnika} like "%{user_input}%" or {nazwisko_czytelnika} like "%{user_input}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<15s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'), '{:^15s}'.format('L. KSIĄŻEK'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<15s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:^15d}'.format(c))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '2':
+            os.system('cls')
+            user_input = input('Wpisz miasto czytelnika: ')
+            query = f'SELECT * FROM {czytelnicy} WHERE {miasto_czytelnika} like "%{user_input}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<15s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'), '{:^15s}'.format('L. KSIĄŻEK'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<15s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:^15d}'.format(c))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '3':
+            os.system('cls')
+            user_input = input('Wpisz adres[ulica] czytelnika: ')
+            query = f'SELECT * FROM {czytelnicy} WHERE {ulica_czytelnika} like "%{user_input}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<15s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'), '{:^15s}'.format('L. KSIĄŻEK'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<15s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:^15d}'.format(c))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice.lower() == 'e':
+            menu_wyszukaj()
+        elif choice.lower() == 'exit':
+            menu_wyszukaj()
+        else:
+            input('\nWrong input...')
+            os.system('cls')
+            menu_wyszukaj()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
