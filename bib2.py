@@ -1058,7 +1058,7 @@ def menu_zmien_status():
             query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE id_ksiazki="{answer}"'
             mycursor.execute(query)
             for x, y, z, a, b, c, d in mycursor:
-                print(x, y, z, '{:.10s}'.format(c))
+                print(x, y, z, c)
             nowy_status = input(f'Wprowadź nowy status dla ID-{x} [TAK/NIE]: ')
             if nowy_status.lower() == 'tak' or nowy_status.lower() == 't':
                 query = f'UPDATE ksiazki SET dostepna="TAK" where id_ksiazki="{x}"'
@@ -1090,7 +1090,7 @@ def menu_zmien_status():
             query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE id_ksiazki="{answer}"'
             mycursor.execute(query)
             for x, y, z, a, b, c, d in mycursor:
-                print(x, y, z, '{:.10s}'.format(c))
+                print(x, y, z, c)
             nowy_status = input(f'Wprowadź nowy status dla ID-{x} [TAK/NIE]: ')
             if nowy_status.lower() == 'tak' or nowy_status.lower() == 't':
                 query = f'UPDATE ksiazki SET dostepna="TAK" where id_ksiazki="{x}"'
