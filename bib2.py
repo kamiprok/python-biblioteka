@@ -109,6 +109,8 @@ def main_menu():
     print('8. Sprawdź dostępność')
     print('9. Zmień status')
 
+    print('\n0. Custom')
+
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -125,6 +127,12 @@ def main_menu():
         menu_gatunki()
     elif choice == '7':
         menu_wyszukaj()
+    elif choice == '8':
+        menu_sprawdz_dostepnosc()
+    elif choice == '9':
+        menu_zmien_status()
+    elif choice == '0':
+        menu_custom()
     elif choice.lower() == 'e':
         input('\nPress any key to close...')
         exit()
@@ -758,7 +766,7 @@ def menu_wyszukaj():
         print('3. Gatunek')
         print('4. Tytuł')
         print('5. Dostępność')
-        print('\nE. Exit')
+        print('\nE. Exit\n')
         choice = input('Option: ')
         if choice == '1':
             os.system('cls')
@@ -917,6 +925,81 @@ def menu_wyszukaj():
             input('\nWrong input...')
             os.system('cls')
             menu_wyszukaj()
+    elif choice == '4':
+        os.system('cls')
+        print('BIBLIOTEKARZ (Beta)')
+        print('\nMenu - Wyszukaj - Wypożyczenia\n')
+        print('Wybierz kryterium szukania: \n')
+        print('1. Wypożyczone książki')
+        print('2. Książki czytelnika')
+        print('3. Wypożyczone dnia')
+        print('4. Oddane dnia')
+        print('\nE. Exit')
+        choice = input('\nOption: ')
+        if choice == '1':
+            os.system('cls')
+            print('Lista aktualnie wypożyczonych książek\n')
+            query = f'SELECT wypozyczenia.id_wypozyczenia, czytelnicy.imie, czytelnicy.nazwisko, autorzy.imie, autorzy.nazwisko, ksiazki.tytul, wypozyczenia.data_wypozyczenia, wypozyczenia.data_zwrotu, wypozyczenia.status FROM {wypozyczenia} INNER JOIN {czytelnicy} ON czytelnicy.id_czytelnika=wypozyczenia.id_czytelnika INNER JOIN {ksiazki} ON ksiazki.id_ksiazki=wypozyczenia.id_ksiazki JOIN {autorzy} ON autorzy.id_autora=ksiazki.id_autora'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:<20s}'.format('CZYTELNIK'),
+                  '{:<20s}'.format('AUTOR'), '{:<15s}'.format('TYTUŁ'), '{:<15s}'.format('OD'), '{:<15s}'.format('DO'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d, e, f in mycursor:
+                print('{:^4d}'.format(x), '{:<20s}'.format(y+' '+z), '{:<20s}'.format(a+' '+b), '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')), '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '2':
+            os.system('cls')
+            answer = input('Wprowadź imię lub nazwisko czytelnika, którego wypożyczenia chcesz wyświetlić: ')
+            query = f'SELECT wypozyczenia.id_wypozyczenia, czytelnicy.imie, czytelnicy.nazwisko, autorzy.imie, autorzy.nazwisko, ksiazki.tytul, wypozyczenia.data_wypozyczenia, wypozyczenia.data_zwrotu, wypozyczenia.status FROM {wypozyczenia} INNER JOIN {czytelnicy} ON czytelnicy.id_czytelnika=wypozyczenia.id_czytelnika INNER JOIN {ksiazki} ON ksiazki.id_ksiazki=wypozyczenia.id_ksiazki JOIN {autorzy} ON autorzy.id_autora=ksiazki.id_autora WHERE czytelnicy.imie like "%{answer}%" OR czytelnicy.nazwisko like "%{answer}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:<20s}'.format('CZYTELNIK'),
+                  '{:<20s}'.format('AUTOR'), '{:<15s}'.format('TYTUŁ'), '{:<15s}'.format('OD'), '{:<15s}'.format('DO'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d, e, f in mycursor:
+                print('{:^4d}'.format(x), '{:<20s}'.format(y+' '+z), '{:<20s}'.format(a+' '+b), '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')), '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '3':
+            os.system('cls')
+            answer = input('Podaj datę wypożyczenia [YYYY-MM-DD]: ')
+            query = f'SELECT wypozyczenia.id_wypozyczenia, czytelnicy.imie, czytelnicy.nazwisko, autorzy.imie, autorzy.nazwisko, ksiazki.tytul, wypozyczenia.data_wypozyczenia, wypozyczenia.data_zwrotu, wypozyczenia.status FROM {wypozyczenia} INNER JOIN {czytelnicy} ON czytelnicy.id_czytelnika=wypozyczenia.id_czytelnika INNER JOIN {ksiazki} ON ksiazki.id_ksiazki=wypozyczenia.id_ksiazki JOIN {autorzy} ON autorzy.id_autora=ksiazki.id_autora WHERE wypozyczenia.data_wypozyczenia like "%{answer}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:<20s}'.format('CZYTELNIK'),
+                  '{:<20s}'.format('AUTOR'), '{:<15s}'.format('TYTUŁ'), '{:<15s}'.format('OD'), '{:<15s}'.format('DO'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d, e, f in mycursor:
+                print('{:^4d}'.format(x), '{:<20s}'.format(y+' '+z), '{:<20s}'.format(a+' '+b), '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')), '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '4':
+            os.system('cls')
+            answer = input('Podaj datę zwrotu [YYYY-MM-DD]: ')
+            query = f'SELECT wypozyczenia.id_wypozyczenia, czytelnicy.imie, czytelnicy.nazwisko, autorzy.imie, autorzy.nazwisko, ksiazki.tytul, wypozyczenia.data_wypozyczenia, wypozyczenia.data_zwrotu, wypozyczenia.status FROM {wypozyczenia} INNER JOIN {czytelnicy} ON czytelnicy.id_czytelnika=wypozyczenia.id_czytelnika INNER JOIN {ksiazki} ON ksiazki.id_ksiazki=wypozyczenia.id_ksiazki JOIN {autorzy} ON autorzy.id_autora=ksiazki.id_autora WHERE wypozyczenia.data_wypozyczenia like "%{answer}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:<20s}'.format('CZYTELNIK'),
+                  '{:<20s}'.format('AUTOR'), '{:<15s}'.format('TYTUŁ'), '{:<15s}'.format('OD'), '{:<15s}'.format('DO'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d, e, f in mycursor:
+                print('{:^4d}'.format(x), '{:<20s}'.format(y+' '+z), '{:<20s}'.format(a+' '+b), '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')), '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice.lower() == 'e':
+            menu_wyszukaj()
+        elif choice.lower() == 'exit':
+            menu_wyszukaj()
+        else:
+            input('\nWrong input...')
+            os.system('cls')
+            menu_wyszukaj()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -926,6 +1009,157 @@ def menu_wyszukaj():
         os.system('cls')
         menu_wyszukaj()
     menu_wyszukaj()
+
+
+def menu_sprawdz_dostepnosc():
+    os.system('cls')
+    print('BIBLIOTEKARZ (Beta)')
+    print('\nMenu - Sprawdź dostępność\n')
+    user_input = input('Wprowadź imię lub nazwisko autora lub tytuł książki: ')
+    os.system('cls')
+    query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE (autorzy.imie like "%{user_input}%" OR autorzy.nazwisko like "%{user_input}%" OR ksiazki.tytul like "%{user_input}%") AND {dostepna_ksiazki} LIKE "%TAK%"'
+    mycursor.execute(query)
+    print(dash)
+    print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+          '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+    print(dash)
+    for x, y, z, a, b, c, d in mycursor:
+        print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+              '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+    print(dash)
+    input('\nPress any key to continue...')
+    main_menu()
+
+
+def menu_zmien_status():
+    os.system('cls')
+    print('BIBLIOTEKARZ (Beta)')
+    print('\nMenu - Zmień status\n')
+    print('1. Książki')
+    print('2. Wypożyczenia')
+    print('\nE. Exit')
+    choice = input('\nOption: ')
+    if choice == '1':
+        os.system('cls')
+        user_input = input('Wprowadź tytuł książki aby wyszukać lub zostaw puste aby wyświetlić wszystkie: ')
+        if user_input == '':
+            os.system('cls')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            answer = input('Podaj ID książki, której status chcesz zmienić: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE id_ksiazki="{answer}"'
+            mycursor.execute(query)
+            for x, y, z, a, b, c, d in mycursor:
+                print(x, y, z, '{:.10s}'.format(c))
+            nowy_status = input(f'Wprowadź nowy status dla ID-{x} [TAK/NIE]: ')
+            if nowy_status.lower() == 'tak' or nowy_status.lower() == 't':
+                query = f'UPDATE ksiazki SET dostepna="TAK" where id_ksiazki="{x}"'
+                mycursor.execute(query)
+                mydb.commit()
+                input('Status zmieniony na "TAK"')
+            elif nowy_status.lower() == 'nie' or nowy_status.lower() == 'n':
+                query = f'UPDATE ksiazki SET dostepna="NIE" where id_ksiazki="{x}"'
+                mycursor.execute(query)
+                mydb.commit()
+                input('Status zmieniony na "NIE"')
+            else:
+                input('Coś poszło nie tak...')
+                main_menu()
+            main_menu()
+        elif user_input is not '':
+            os.system('cls')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE ksiazki.tytul LIKE "%{user_input}%"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            answer = input('Podaj ID książki, której status chcesz zmienić: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE id_ksiazki="{answer}"'
+            mycursor.execute(query)
+            for x, y, z, a, b, c, d in mycursor:
+                print(x, y, z, '{:.10s}'.format(c))
+            nowy_status = input(f'Wprowadź nowy status dla ID-{x} [TAK/NIE]: ')
+            if nowy_status.lower() == 'tak' or nowy_status.lower() == 't':
+                query = f'UPDATE ksiazki SET dostepna="TAK" where id_ksiazki="{x}"'
+                mycursor.execute(query)
+                mydb.commit()
+                input('Status zmieniony na "TAK"')
+            elif nowy_status.lower() == 'nie' or nowy_status.lower() == 'n':
+                query = f'UPDATE ksiazki SET dostepna="NIE" where id_ksiazki="{x}"'
+                mycursor.execute(query)
+                mydb.commit()
+                input('Status zmieniony na "NIE"')
+            else:
+                input('Coś poszło nie tak...')
+                main_menu()
+            main_menu()
+    elif choice == '2':
+        os.system('cls')
+        query = f'SELECT * FROM {wypozyczenia}'
+        mycursor.execute(query)
+        print(dash)
+        print('{:^4s}'.format('ID'), '{:^10s}'.format('ID KSIĄŻKI'), '{:^15s}'.format('ID CZYTELNIKA'),
+              '{:<20s}'.format('DATA ZAMÓWIENIA'), '{:<20s}'.format('DATA WYPOŻYCZENIA'),
+              '{:<20s}'.format('DATA ZWROTU'), '{:<15s}'.format('STATUS'))
+        print(dash)
+        for x, y, z, a, b, c, d in mycursor:
+            print('{:^4d}'.format(x), '{:^10d}'.format(y), '{:^15d}'.format(z), '{:<20}'.format(a.strftime('%Y-%m-%d')),
+                  '{:<20s}'.format(b.strftime('%Y-%m-%d')), '{:<20s}'.format(c.strftime('%Y-%m-%d')),
+                  '{:<15}'.format(d))
+        print(dash)
+        user_input = input('\nWprowadź ID wypożyczenia, którego status chcesz zmienić: ')
+        query = f'SELECT * FROM {wypozyczenia} WHERE id_wypozyczenia="{user_input}"'
+        mycursor.execute(query)
+        for x, y, z, a, b, c, d in mycursor:
+            print('{:^4d}'.format(x), '{:^10d}'.format(y), '{:^15d}'.format(z), '{:<20}'.format(a.strftime('%Y-%m-%d')),
+                  '{:<20s}'.format(b.strftime('%Y-%m-%d')), '{:<20s}'.format(c.strftime('%Y-%m-%d')),
+                  '{:<15}'.format(d))
+        answer = input('Wprowadź nowy status: ')
+        query = f'UPDATE wypozyczenia SET status="{answer}" WHERE id_wypozyczenia="{x}"'
+        mycursor.execute(query)
+        mydb.commit()
+        input('Zmieniono status!')
+        main_menu()
+    elif choice.lower() == 'e':
+        main_menu()
+    elif choice.lower() == 'exit':
+        main_menu()
+    else:
+        input('\nWrong input...')
+        os.system('cls')
+        main_menu()
+    main_menu()
+
+
+def menu_custom():
+    os.system('cls')
+    print('BIBLIOTEKARZ (Beta)')
+    print('\nMenu - Custom (Zaawansowany)\n')
+    print('Nie znalazłeś czego szukasz?\n')
+    user_input = input('Wprowadź własne zapytanie SQL: ')
+    os.system('cls')
+    query = f'{user_input}'
+    # query = f'select autorzy.imie, autorzy.nazwisko, ksiazki.tytul from autorzy inner join ksiazki on ksiazki.id_autora=autorzy.id_autora'
+    mycursor.execute(query)
+    print(dash)
+    for x in mycursor:
+        print(x)
+    print(dash)
+    input('\nPress any key to continue...')
+    main_menu()
 
 
 main_menu()
