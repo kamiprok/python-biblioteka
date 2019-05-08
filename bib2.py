@@ -188,6 +188,7 @@ def menu_autorzy():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -257,6 +258,37 @@ def menu_autorzy():
                 input('Anulowano...')
         except:
             input('Anulowano...')
+    elif choice == '5':
+        try:
+            os.system('cls')
+            print_autors()
+            user_input = input('\nWpisz ID autora, którego chcesz edytować: ')
+            query = f'SELECT * FROM {autorzy} WHERE {id_autora}="{user_input}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<10s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<10s}'.format('NARODOWOSC'), '{:<10s}'.format('L. DZIEŁ'), '{:<15s}'.format('OPIS'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<10s}'.format(y), '{:<15s}'.format(z), '{:<10s}'.format(a),
+                      '{:^10d}'.format(b), '{:.50s}'.format(c))
+            print(dash+'\n')
+            print('1. Imie')
+            print('2. Nazwisko')
+            print('3. Narodowość')
+            print('4. Liczba dzieł')
+            print('5. Opis\n')
+            wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+            new_value = input('Podaj nową wartość: ')
+            wybor = lista_autorzy[wybor]
+            query = f'update {autorzy} set {wybor}="{new_value}" where {id_autora}="{user_input}"'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Edytowano!')
+            menu_autorzy()
+        except ValueError:
+            input('Coś poszło nie tak...')
+            menu_autorzy()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -276,6 +308,7 @@ def menu_ksiazki():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -357,6 +390,46 @@ def menu_ksiazki():
                 input('Anulowano...')
         except:
             input('Anulowano...')
+    elif choice == '5':
+        try:
+            os.system('cls')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash)
+            user_input = input('\nWpisz ID książki, którą chcesz edytować: ')
+            query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE {id_ksiazki}="{user_input}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^5s}'.format('ID'), '{:<25s}'.format('AUTOR'), '{:<15s}'.format('WYDAWNICTWO'),
+                  '{:<15s}'.format('GATUNEK'), '{:<40s}'.format('TYTUŁ'), '{:^5s}'.format('DOSTĘPNA'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^5d}'.format(x), '{:<25s}'.format(y + ' ' + z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:<40s}'.format(c), '{:^5s}'.format(d))
+            print(dash+'\n')
+            print('1. ID autora')
+            print('2. Wydawnictwo')
+            print('3. Gatunek')
+            print('4. Tytuł')
+            print('5. Dostępna\n')
+            wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+            new_value = input('Podaj nową wartość: ')
+            wybor = lista_ksiazki[wybor]
+            query = f'update {ksiazki} set {wybor}="{new_value}" where {id_ksiazki}="{user_input}"'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Edytowano!')
+            menu_ksiazki()
+        except ValueError:
+            input('Coś poszło nie tak...')
+            menu_ksiazki()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -376,6 +449,7 @@ def menu_czytelnicy():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -447,6 +521,46 @@ def menu_czytelnicy():
                 input('Anulowano...')
         except:
             input('Anulowano...')
+    elif choice == '5':
+        try:
+            os.system('cls')
+            query = f'SELECT * FROM {czytelnicy}'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<15s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'),  '{:^15s}'.format('L. KSIĄŻEK'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<15s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:^15d}'.format(c))
+            print(dash)
+            user_input = input('\nWpisz ID czytelnika, którego chcesz edytować: ')
+            query = f'select * FROM {czytelnicy} WHERE {id_czytelnika}="{user_input}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<4s}'.format('ID'), '{:<15s}'.format('IMIE'), '{:<15s}'.format('NAZWISKO'),
+                  '{:<15s}'.format('MIASTO'), '{:<15s}'.format('ULICA'), '{:^15s}'.format('L. KSIĄŻEK'))
+            print(dash)
+            for x, y, z, a, b, c in mycursor:
+                print('{:<4d}'.format(x), '{:<15s}'.format(y), '{:<15s}'.format(z), '{:<15s}'.format(a),
+                      '{:<15s}'.format(b), '{:^15d}'.format(c))
+            print(dash+'\n')
+            print('1. Imię')
+            print('2. Nazwisko')
+            print('3. Miasto')
+            print('4. Ulica')
+            print('5. Liczba książek\n')
+            wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+            new_value = input('Podaj nową wartość: ')
+            wybor = lista_czytelnicy[wybor]
+            query = f'update {czytelnicy} set {wybor}="{new_value}" where {id_czytelnika}="{user_input}"'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Edytowano!')
+            menu_czytelnicy()
+        except ValueError:
+            input('Coś poszło nie tak...')
+            menu_czytelnicy()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -466,6 +580,7 @@ def menu_wypozyczenia():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -542,6 +657,51 @@ def menu_wypozyczenia():
                 input('Anulowano...')
         except:
             input('Wystąpił nieoczekiwany problem...')
+    elif choice == '5':
+        try:
+            os.system('cls')
+            query = f'SELECT * FROM {wypozyczenia}'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:^10s}'.format('ID KSIĄŻKI'), '{:^15s}'.format('ID CZYTELNIKA'),
+                  '{:<20s}'.format('DATA ZAMÓWIENIA'), '{:<20s}'.format('DATA WYPOŻYCZENIA'),
+                  '{:<20s}'.format('DATA ZWROTU'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^4d}'.format(x), '{:^10d}'.format(y), '{:^15d}'.format(z),
+                      '{:<20}'.format(a.strftime('%Y-%m-%d')), '{:<20s}'.format(b.strftime('%Y-%m-%d')),
+                      '{:<20s}'.format(c.strftime('%Y-%m-%d')), '{:<15}'.format(d))
+            print(dash)
+            user_input = input('\nWpisz ID wypożyczenia, które chcesz edytować: ')
+            query = f'select * FROM {wypozyczenia} WHERE {id_wypozyczenia}="{user_input}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:^10s}'.format('ID KSIĄŻKI'), '{:^15s}'.format('ID CZYTELNIKA'),
+                  '{:<20s}'.format('DATA ZAMÓWIENIA'), '{:<20s}'.format('DATA WYPOŻYCZENIA'),
+                  '{:<20s}'.format('DATA ZWROTU'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^4d}'.format(x), '{:^10d}'.format(y), '{:^15d}'.format(z),
+                      '{:<20}'.format(a.strftime('%Y-%m-%d')), '{:<20s}'.format(b.strftime('%Y-%m-%d')),
+                      '{:<20s}'.format(c.strftime('%Y-%m-%d')), '{:<15}'.format(d))
+            print(dash+'\n')
+            print('1. ID czytelnika')
+            print('2. ID książki')
+            print('3. Data zamówienia')
+            print('4. Data wypożyczenia')
+            print('5. Data zwrotu')
+            print('6. Status\n')
+            wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+            new_value = input('Podaj nową wartość: ')
+            wybor = lista_wypozyczenia[wybor]
+            query = f'update {wypozyczenia} set {wybor}="{new_value}" where {id_wypozyczenia}="{user_input}"'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Edytowano!')
+            menu_wypozyczenia()
+        except ValueError:
+            input('Coś poszło nie tak...')
+            menu_wypozyczenia()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -561,6 +721,7 @@ def menu_wydawnictwa():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -615,6 +776,32 @@ def menu_wydawnictwa():
                 input('Anulowano...')
         except:
             input('Coś poszło nie tak...')
+    elif choice == '5':
+        try:
+            os.system('cls')
+            print_wyd()
+            user_input = input('\nWpisz nazwę wydawnictwa, które chcesz edytować: ')
+            query = f'select * FROM {wydawnictwa} WHERE {nazwa_wydawnictwa}="{user_input}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:<20s}'.format('NAZWA WYDAWNICTWA'), '{:<10s}'.format('KRAJ'), '{:<10s}'.format('MIASTO'))
+            print(dash)
+            for x, y, z in mycursor:
+                print('{:<20s}'.format(x), '{:<10s}'.format(y), '{:<10s}'.format(z))
+            print(dash+'\n')
+            print('1. Kraj')
+            print('2. Miasto\n')
+            wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+            new_value = input('Podaj nową wartość: ')
+            wybor = lista_wydawnictwa[wybor]
+            query = f'update {wydawnictwa} set {wybor}="{new_value}" where {nazwa_wydawnictwa}="{user_input}"'
+            mycursor.execute(query)
+            mydb.commit()
+            input('Edytowano!')
+            menu_wydawnictwa()
+        except ValueError:
+            input('Coś poszło nie tak...')
+            menu_wydawnictwa()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
@@ -634,6 +821,7 @@ def menu_gatunki():
     print('2. Wyszukaj')
     print('3. Dodaj')
     print('4. Usuń')
+    print('5. Zmień')
     print('\nE. Exit')
     choice = input('\nOption: ')
     if choice == '1':
@@ -686,6 +874,31 @@ def menu_gatunki():
                 input('Anulowano...')
         except:
             input('Coś poszło nie tak...')
+    # elif choice == '5':
+    #     try:
+    #         os.system('cls')
+    #         print_gatunek()
+    #         user_input = input('\nWpisz nazwę gatunku, który chcesz edytować: ')
+    #         query = f'select * FROM {gatunki} WHERE {nazwa_gatunku}="{user_input}"'
+    #         mycursor.execute(query)
+    #         print(dash)
+    #         print('{:<15s}'.format('NAZWA GATUNKU'))
+    #         print(dash)
+    #         for x in mycursor:
+    #             print(x[0])
+    #         print(dash+'\n')
+    #         print('1. Nazwa\n')
+    #         wybor = int(input('Wybierz którą wartość chcesz edytować: '))
+    #         new_value = input('Podaj nową wartość: ')
+    #         wybor = lista_gatunki[wybor-1]
+    #         query = f'update {gatunki} set {wybor}="{new_value}" where {nazwa_gatunku}="{user_input}"'
+    #         mycursor.execute(query)
+    #         mydb.commit()
+    #         input('Edytowano!')
+    #         menu_gatunki()
+    #     except ValueError:
+    #         input('Coś poszło nie tak...')
+    #         menu_gatunki()
     elif choice.lower() == 'e':
         main_menu()
     elif choice.lower() == 'exit':
