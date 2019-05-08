@@ -32,6 +32,7 @@ id_autora = lista_autorzy[0]
 imie_autora = lista_autorzy[1]
 nazwisko_autora = lista_autorzy[2]
 narodowosc_autora = lista_autorzy[3]
+liczba_dziel = lista_autorzy[4]
 opis_autora = lista_autorzy[5]
 
 query = 'show columns from ksiazki'
@@ -358,7 +359,10 @@ def menu_ksiazki():
         tytul = input('Podaj Tytuł ksiązki: ')
         try:
             query = f'INSERT INTO `{ksiazki}` (`{id_autora_ksiazki}`, `{wydawnictwo_ksiazki}`, `{gatunek_ksiazki}`, `{tytul_ksiazki}`) VALUES ("{imie}", "{wyd}", "{gatunek}", "{tytul}")'
+            query2 = f'update {autorzy} set {liczba_dziel} = {liczba_dziel}+1 where {id_autora} = {imie}'
             mycursor.execute(query)
+            mydb.commit()
+            mycursor.execute(query2)
             mydb.commit()
             input('Dodano!')
         except:
@@ -383,7 +387,9 @@ def menu_ksiazki():
             confirm = input(f'Czy na pewno chcesz usunąć {myresult[4]}, ID {myresult[0]} z bazy? [Y/N]: ')
             if confirm.lower() == 'y':
                 query = f'DELETE FROM `{ksiazki}` WHERE `{id_ksiazki}`="{answer}"'
+                query2 = f'update {autorzy} set {liczba_dziel} = {liczba_dziel}-1 where {id_autora} = {myresult[1]}'
                 mycursor.execute(query)
+                mycursor.execute(query2)
                 mydb.commit()
                 input(f'Usunięto {myresult[4]} o ID {myresult[0]} z bazy danych!')
             else:
@@ -628,7 +634,11 @@ def menu_wypozyczenia():
             print(now_15)
             print(now_string)
             query = f'INSERT INTO {wypozyczenia} ({id_czytelnika_wypozyczenia}, {id_ksiazki_wypozyczenia}, {data_zamowienia_wypozyczenia}, {data_wypozyczenia_wypozyczenia}, {data_zwrotu_wypozyczenia}, {status_wypozyczenia}) VALUES ({czytelnik}, {ksiazka}, "{now_string}", "{now}", "{now_15}", "wypożyczona")'
+            query2 = f'update {czytelnicy} set {liczba_ksiazek_czytelnika}={liczba_ksiazek_czytelnika}+1 where {id_czytelnika}={czytelnik}'
+            query3 = f'update {ksiazki} set {dostepna_ksiazki}="NIE" where {id_ksiazki}={ksiazka}'
             mycursor.execute(query)
+            mycursor.execute(query2)
+            mycursor.execute(query3)
             mydb.commit()
             input('Dodano do bazy')
         except:
@@ -636,21 +646,38 @@ def menu_wypozyczenia():
     elif choice == '4':
         try:
             os.system('cls')
+            query = f'SELECT * FROM {wypozyczenia}'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:^10s}'.format('ID KSIĄŻKI'), '{:^15s}'.format('ID CZYTELNIKA'),
+                  '{:<20s}'.format('DATA ZAMÓWIENIA'), '{:<20s}'.format('DATA WYPOŻYCZENIA'),
+                  '{:<20s}'.format('DATA ZWROTU'), '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d in mycursor:
+                print('{:^4d}'.format(x), '{:^10d}'.format(y), '{:^15d}'.format(z),
+                      '{:<20}'.format(a.strftime('%Y-%m-%d')), '{:<20s}'.format(b.strftime('%Y-%m-%d')),
+                      '{:<20s}'.format(c.strftime('%Y-%m-%d')), '{:<15}'.format(d))
+            print(dash+'\n')
             user_input = input('Podaj ID wypożyczenia, które chcesz usunąć: ')
             query = f'SELECT * FROM `{wypozyczenia}` WHERE `{id_wypozyczenia}` like "%{user_input}%"'
             mycursor.execute(query)
-            print('{:^4s}'.format('ID'), '{:^15s}'.format('ID CZYTELNIKA'), '{:^10s}'.format('ID KSIĄŻKI'),
+            print('\n{:^4s}'.format('ID'), '{:^15s}'.format('ID CZYTELNIKA'), '{:^10s}'.format('ID KSIĄŻKI'),
                   '{:<20s}'.format('DATA ZAMÓWIENIA'), '{:<20s}'.format('DATA WYPOŻYCZENIA'),
                   '{:<20s}'.format('DATA ZWROTU'), '{:<15s}'.format('STATUS'))
             for x, y, z, a, b, c, d in mycursor:
                 print('{:^4d}'.format(x), '{:^15d}'.format(y), '{:^10d}'.format(z), '{:<20}'.format(a.strftime('%Y-%m-%d')),
                       '{:<20s}'.format(b.strftime('%Y-%m-%d')), '{:<20s}'.format(c.strftime('%Y-%m-%d')),
                       '{:<15}'.format(d))
-
-            confirm = input(f'Czy na pewno chcesz usunąć wypożyczenie z bazy? [Y/N]: ')
+                zmienna_ksiazka = z
+                zmienna_czytelnik = y
+            confirm = input(f'\nCzy na pewno chcesz usunąć wypożyczenie z bazy? [Y/N]: ')
             if confirm.lower() == 'y':
                 query = f'DELETE FROM `{wypozyczenia}` WHERE `{id_wypozyczenia}`="{user_input}"'
+                query2 = f'update {czytelnicy} set {liczba_ksiazek_czytelnika}={liczba_ksiazek_czytelnika}-1 where {id_czytelnika}={zmienna_czytelnik}'
+                query3 = f'update {ksiazki} set {dostepna_ksiazki}="TAK" where {id_ksiazki}={zmienna_ksiazka}'
                 mycursor.execute(query)
+                mycursor.execute(query2)
+                mycursor.execute(query3)
                 mydb.commit()
                 input(f'Usunięto z bazy danych!')
             else:

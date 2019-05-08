@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f5a7c1d-d68f-4436-8b0c-8774845a9910" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bib2.py" beforeDir="false" afterPath="$PROJECT_DIR$/bib2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/biblioteka.sql" beforeDir="false" afterPath="$PROJECT_DIR$/biblioteka.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bib2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7807">
-              <caret line="901" column="31" lean-forward="true" selection-start-line="901" selection-start-column="31" selection-end-line="901" selection-end-column="31" />
+            <state relative-caret-position="282">
+              <caret line="672" column="32" selection-start-line="672" selection-start-column="32" selection-end-line="672" selection-end-column="32" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -80,8 +78,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="335" />
-    <option name="y" value="-20" />
+    <option name="x" value="795" />
+    <option name="y" value="-24" />
     <option name="width" value="980" />
     <option name="height" value="1040" />
   </component>
@@ -213,8 +211,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bib2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7807">
-          <caret line="901" column="31" lean-forward="true" selection-start-line="901" selection-start-column="31" selection-end-line="901" selection-end-column="31" />
+        <state relative-caret-position="282">
+          <caret line="672" column="32" selection-start-line="672" selection-start-column="32" selection-end-line="672" selection-end-column="32" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
