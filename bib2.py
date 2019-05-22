@@ -1174,6 +1174,7 @@ def menu_wyszukaj():
         print('2. Książki czytelnika')
         print('3. Wypożyczone dnia')
         print('4. Oddane dnia')
+        print('5. Wypożyczone od - do')
         print('\nE. Exit')
         choice = input('\nOption: ')
         if choice == '1':
@@ -1229,6 +1230,24 @@ def menu_wyszukaj():
             print(dash)
             for x, y, z, a, b, c, d, e, f in mycursor:
                 print('{:^4d}'.format(x), '{:<20s}'.format(y+' '+z), '{:<20s}'.format(a+' '+b), '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')), '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
+            print(dash)
+            input('Press any key to continue...')
+            menu_wyszukaj()
+        elif choice == '5':
+            os.system('cls')
+            answer = input('Podaj datę początkową [YYYY-MM-DD]: ')
+            answer2 = input('Podaj datę koncową [YYYY-MM-DD]: ')
+            query = f'SELECT wypozyczenia.id_wypozyczenia, czytelnicy.imie, czytelnicy.nazwisko, autorzy.imie, autorzy.nazwisko, ksiazki.tytul, wypozyczenia.data_wypozyczenia, wypozyczenia.data_zwrotu, wypozyczenia.status FROM {wypozyczenia} INNER JOIN {czytelnicy} ON czytelnicy.id_czytelnika=wypozyczenia.id_czytelnika INNER JOIN {ksiazki} ON ksiazki.id_ksiazki=wypozyczenia.id_ksiazki JOIN {autorzy} ON autorzy.id_autora=ksiazki.id_autora WHERE wypozyczenia.data_wypozyczenia between "{answer}" and "{answer2}"'
+            mycursor.execute(query)
+            print(dash)
+            print('{:^4s}'.format('ID'), '{:<20s}'.format('CZYTELNIK'),
+                  '{:<20s}'.format('AUTOR'), '{:<15s}'.format('TYTUŁ'), '{:<15s}'.format('OD'), '{:<15s}'.format('DO'),
+                  '{:<15s}'.format('STATUS'))
+            print(dash)
+            for x, y, z, a, b, c, d, e, f in mycursor:
+                print('{:^4d}'.format(x), '{:<20s}'.format(y + ' ' + z), '{:<20s}'.format(a + ' ' + b),
+                      '{:.15s}'.format(c), '{:<15s}'.format(d.strftime('%Y-%m-%d')),
+                      '{:<15s}'.format(e.strftime('%Y-%m-%d')), '{:<15s}'.format(f))
             print(dash)
             input('Press any key to continue...')
             menu_wyszukaj()
@@ -1385,21 +1404,25 @@ def menu_zmien_status():
 
 
 def menu_custom():
-    os.system('cls')
-    print('BIBLIOTEKARZ (Beta)')
-    print('\nMenu - Custom (Zaawansowany)\n')
-    print('Nie znalazłeś czego szukasz?\n')
-    user_input = input('Wprowadź własne zapytanie SQL: ')
-    os.system('cls')
-    query = f'{user_input}'
-    # query = f'select autorzy.imie, autorzy.nazwisko, ksiazki.tytul from autorzy inner join ksiazki on ksiazki.id_autora=autorzy.id_autora'
-    mycursor.execute(query)
-    print(dash)
-    for x in mycursor:
-        print(x)
-    print(dash)
-    input('\nPress any key to continue...')
-    main_menu()
+    try:
+        os.system('cls')
+        print('BIBLIOTEKARZ (Beta)')
+        print('\nMenu - Custom (Zaawansowany)\n')
+        print('Nie znalazłeś czego szukasz?\n')
+        user_input = input('Wprowadź własne zapytanie SQL: ')
+        os.system('cls')
+        query = f'{user_input}'
+        # query = f'select autorzy.imie, autorzy.nazwisko, ksiazki.tytul from autorzy inner join ksiazki on ksiazki.id_autora=autorzy.id_autora'
+        mycursor.execute(query)
+        print(dash)
+        for x in mycursor:
+            print(x)
+        print(dash)
+        input('\nPress any key to continue...')
+        main_menu()
+    except mysql.connector.errors.ProgrammingError:
+        input('Coś poszło nie tak...')
+        main_menu()
 
 
 main_menu()
