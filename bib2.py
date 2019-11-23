@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import mysql.connector
 import os
 from datetime import datetime, timedelta, date
@@ -1333,7 +1334,7 @@ def menu_zmien_status():
                 input('Coś poszło nie tak...')
                 main_menu()
             main_menu()
-        elif user_input is not '':
+        elif user_input != '':
             os.system('cls')
             query = f'SELECT ksiazki.id_ksiazki, autorzy.imie, autorzy.nazwisko, ksiazki.wydawnictwo, ksiazki.gatunek, ksiazki.tytul, ksiazki.dostepna FROM {ksiazki} INNER JOIN {autorzy} ON ksiazki.id_autora=autorzy.id_autora WHERE ksiazki.tytul LIKE "%{user_input}%"'
             mycursor.execute(query)

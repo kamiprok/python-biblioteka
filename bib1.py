@@ -30,7 +30,7 @@ for x in mycursor:
     print(x)
 
 print('')
-mycursor.execute('show columns from autorzy')
+mycursor.execute('show columns from ksiazki')
 
 for x in mycursor:
     print(x)
